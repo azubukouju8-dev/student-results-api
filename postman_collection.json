@@ -1,0 +1,441 @@
+{
+  "info": {
+    "name": "Student Results API",
+    "description": "Collection for the Student Results API — a FastAPI service for managing subjects, assessments, and student scores. Includes sample requests and responses for every endpoint, with Basic Auth on protected routes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "admin", "type": "string" },
+      { "key": "password", "value": "secret123", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000" }
+  ],
+  "item": [
+    {
+      "name": "Subjects",
+      "item": [
+        {
+          "name": "Create Subject",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin", "type": "string" },
+                { "key": "password", "value": "secret123", "type": "string" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Mathematics\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subjects",
+              "host": ["{{baseUrl}}"],
+              "path": ["subjects"]
+            },
+            "description": "Creates a new subject. Requires Basic Auth."
+          },
+          "response": [
+            {
+              "name": "200 OK - Subject created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"name\": \"Mathematics\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/subjects",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["subjects"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"Mathematics\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Subjects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subjects",
+              "host": ["{{baseUrl}}"],
+              "path": ["subjects"]
+            },
+            "description": "Lists all subjects. No auth required."
+          },
+          "response": [
+            {
+              "name": "200 OK - List of subjects",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/subjects",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["subjects"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Mathematics\"\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Assessments",
+      "item": [
+        {
+          "name": "Create Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin", "type": "string" },
+                { "key": "password", "value": "secret123", "type": "string" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"subject_id\": 1,\n  \"title\": \"Midterm Exam\",\n  \"max_score\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/assessments",
+              "host": ["{{baseUrl}}"],
+              "path": ["assessments"]
+            },
+            "description": "Creates a new assessment tied to an existing subject. Requires Basic Auth. Returns 404 if subject_id does not exist."
+          },
+          "response": [
+            {
+              "name": "200 OK - Assessment created",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"subject_id\": 1,\n  \"title\": \"Midterm Exam\",\n  \"max_score\": 100\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/assessments",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["assessments"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"subject_id\": 1,\n  \"title\": \"Midterm Exam\",\n  \"max_score\": 100\n}"
+            },
+            {
+              "name": "404 Not Found - Subject does not exist",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 2,\n  \"subject_id\": 99,\n  \"title\": \"Pop Quiz\",\n  \"max_score\": 20\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/assessments",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["assessments"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "content-type", "value": "application/json" }
+              ],
+              "body": "{\n  \"detail\": \"Subject not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Assessments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/assessments",
+              "host": ["{{baseUrl}}"],
+              "path": ["assessments"]
+            },
+            "description": "Lists all assessments. No auth required."
+          },
+          "response": [
+            {
+              "name": "200 OK - List of assessments",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/assessments",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["assessments"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "[\n  {\n    \"id\": 1,\n    \"subject_id\": 1,\n    \"title\": \"Midterm Exam\",\n    \"max_score\": 100\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scores",
+      "item": [
+        {
+          "name": "Add Score",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin", "type": "string" },
+                { "key": "password", "value": "secret123", "type": "string" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 87\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/scores",
+              "host": ["{{baseUrl}}"],
+              "path": ["scores"]
+            },
+            "description": "Adds a student's score for an assessment. Requires Basic Auth. Returns 404 if assessment_id does not exist. Validation rejects negative scores (422)."
+          },
+          "response": [
+            {
+              "name": "200 OK - Score added",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 87\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scores",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["scores"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 87,\n  \"id\": 1\n}"
+            },
+            {
+              "name": "422 Unprocessable Entity - Negative score rejected",
+              "originalRequest": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": -5\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scores",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["scores"]
+                }
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "header": [
+                { "key": "content-type", "value": "application/json" }
+              ],
+              "body": "{\n  \"detail\": \"Invalid input\",\n  \"errors\": [\n    {\n      \"type\": \"greater_than_equal\",\n      \"loc\": [\"body\", \"score\"],\n      \"msg\": \"Input should be greater than or equal to 0\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Score",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "auth": {
+              "type": "basic",
+              "basic": [
+                { "key": "username", "value": "admin", "type": "string" },
+                { "key": "password", "value": "secret123", "type": "string" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 92\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/scores/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["scores", "1"]
+            },
+            "description": "Updates an existing score by its id. Requires Basic Auth. Returns 404 if score_id does not exist."
+          },
+          "response": [
+            {
+              "name": "200 OK - Score updated",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 92\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/scores/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["scores", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "{\n  \"student_id\": 101,\n  \"assessment_id\": 1,\n  \"score\": 92,\n  \"id\": 1\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Student Results",
+      "item": [
+        {
+          "name": "Get Student Results",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/students/101/results",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "101", "results"]
+            },
+            "description": "Returns all score records for a given student. No auth required. Returns 404 if no results exist for that student."
+          },
+          "response": [
+            {
+              "name": "200 OK - Student's results",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/students/101/results",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["students", "101", "results"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "[\n  {\n    \"student_id\": 101,\n    \"assessment_id\": 1,\n    \"score\": 87,\n    \"id\": 1\n  }\n]"
+            },
+            {
+              "name": "404 Not Found - No results for student",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/students/999/results",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["students", "999", "results"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "content-type", "value": "application/json" }
+              ],
+              "body": "{\n  \"detail\": \"No results found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Student Average",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/students/101/average",
+              "host": ["{{baseUrl}}"],
+              "path": ["students", "101", "average"]
+            },
+            "description": "Returns a student's average score across all assessments. No auth required."
+          },
+          "response": [
+            {
+              "name": "200 OK - Student's average",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/students/101/average",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["students", "101", "average"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "content-type", "value": "application/json" },
+                { "key": "server", "value": "uvicorn" }
+              ],
+              "body": "{\n  \"student_id\": 101,\n  \"average\": 87\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
